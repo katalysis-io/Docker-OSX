@@ -1,0 +1,18 @@
+name: Docker image builder
+on:
+  push:
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2
+    - uses: docker/build-push-action@v1
+      with:
+        build_args: SSH_KEY=${{ secrets.SSH_KEY }}
+        username: ${{ github.actor }}
+        password: ${{ github.token }}
+        registry: docker.pkg.github.com
+        repository: katalysis-io/docker-osx/docker-osx-vnc
+        dockerfile: vnc-version/Dockerfile
+        tag_with_ref: true
+        add_git_labels: true
